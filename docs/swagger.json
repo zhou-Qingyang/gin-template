@@ -1,0 +1,937 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api/admin/courses": {
+            "get": {
+                "description": "管理员获取课程列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "管理员部分"
+                ],
+                "summary": "管理员获取课程列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "courseName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "location",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "name": "teachers",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/api.CoursesResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "修改课程接口",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "管理员部分"
+                ],
+                "summary": "修改课程接口",
+                "parameters": [
+                    {
+                        "description": "修改课程请求参数",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.AddCourseRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "添加课程接口",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "管理员部分"
+                ],
+                "summary": "添加课程接口",
+                "parameters": [
+                    {
+                        "description": "学生注册请求参数",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.AddCourseRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "additionalProperties": true
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/courses/{courseId}": {
+            "get": {
+                "description": "管理员获取课程详情",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "管理员部分"
+                ],
+                "summary": "管理员获取课程详情",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "课程id",
+                        "name": "courseId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/api.GetCoursesByIdResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "删除课程接口",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "管理员部分"
+                ],
+                "summary": "删除课程接口",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "课程id",
+                        "name": "courseId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/students": {
+            "get": {
+                "description": "管理员获取学生列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "管理员部分"
+                ],
+                "summary": "管理员获取学生列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "studentId",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "studentName",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/api.GetStudentsResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/students/{studentId}": {
+            "get": {
+                "description": "管理员获取学生详情",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "管理员部分"
+                ],
+                "summary": "管理员获取学生详情",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "学生id",
+                        "name": "studentId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/api.GetStudentResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user": {
+            "get": {
+                "tags": [
+                    "学生部分"
+                ],
+                "summary": "查询学生信息",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/api.UserGetCourseRequest"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "学生部分"
+                ],
+                "summary": "学生登录接口",
+                "parameters": [
+                    {
+                        "description": "学生登录请求参数",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.UserLoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "学生部分"
+                ],
+                "summary": "退出登录接口",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/courseId/{courseId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "学生部分"
+                ],
+                "summary": "退课接口",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "课程id",
+                        "name": "courseId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/api.UserGetCourseRequest"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/courses": {
+            "get": {
+                "description": "查询课程列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "学生部分"
+                ],
+                "summary": "查询课程列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "courseName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "location",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "name": "teachers",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/api.CoursesResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/courses-selected": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "学生部分"
+                ],
+                "summary": "查询已选课程信息",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/api.UserGetCoursesRequest"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/courses/": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "学生部分"
+                ],
+                "summary": "报名课程接口",
+                "parameters": [
+                    {
+                        "description": "报名课程请求参数",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.EnrollCourseRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/api.GetCoursesByIdResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/courses/{courseId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "学生部分"
+                ],
+                "summary": "查询课程信息",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "课程id",
+                        "name": "courseId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/api.GetCoursesByIdResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/register": {
+            "post": {
+                "description": "注册接口",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "学生部分"
+                ],
+                "summary": "学生注册接口",
+                "parameters": [
+                    {
+                        "description": "学生注册请求参数",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.UserRegisterRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "api.AddCourseRequest": {
+            "type": "object",
+            "properties": {
+                "capacity": {
+                    "type": "integer"
+                },
+                "courseId": {
+                    "type": "integer"
+                },
+                "courseName": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "teachers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "time": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "endTime": {
+                                "type": "string"
+                            },
+                            "startTime": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "api.CourseItem": {
+            "type": "object",
+            "properties": {
+                "capacity": {
+                    "type": "integer"
+                },
+                "courseName": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "teachers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "time": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "endTime": {
+                                "type": "string"
+                            },
+                            "startTime": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "api.CoursesResponse": {
+            "type": "object",
+            "properties": {
+                "rows": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.CourseItem"
+                    }
+                },
+                "size": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.EnrollCourseRequest": {
+            "type": "object",
+            "properties": {
+                "courseId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.GetCoursesByIdResponse": {
+            "type": "object",
+            "properties": {
+                "capacity": {
+                    "type": "integer"
+                },
+                "courseName": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "students": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "studentId": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "teachers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "time": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "endTime": {
+                                "type": "string"
+                            },
+                            "startTime": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "totalStudents": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.GetStudentResponse": {
+            "type": "object",
+            "properties": {
+                "courses": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "capacity": {
+                                "type": "integer"
+                            },
+                            "courseName": {
+                                "type": "string"
+                            },
+                            "id": {
+                                "type": "integer"
+                            },
+                            "location": {
+                                "type": "string"
+                            },
+                            "teachers": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "time": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "endTime": {
+                                            "type": "string"
+                                        },
+                                        "startTime": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "studentName": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.GetStudentsResponse": {
+            "type": "object",
+            "properties": {
+                "students": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "studentId": {
+                                "type": "string"
+                            },
+                            "studentName": {
+                                "type": "string"
+                            },
+                            "totalCourses": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "api.UserGetCourseRequest": {
+            "type": "object",
+            "properties": {
+                "studentId": {
+                    "type": "string"
+                },
+                "studentName": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.UserGetCoursesRequest": {
+            "type": "object",
+            "properties": {
+                "capacity": {
+                    "type": "integer"
+                },
+                "courseId": {
+                    "type": "integer"
+                },
+                "courseName": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "teachers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "time": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "endTime": {
+                                "type": "string"
+                            },
+                            "startTime": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "api.UserLoginRequest": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "studentId": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.UserRegisterRequest": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "studentId": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {},
+                "message": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}

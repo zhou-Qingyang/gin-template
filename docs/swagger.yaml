@@ -1,0 +1,571 @@
+definitions:
+  api.AddCourseRequest:
+    properties:
+      capacity:
+        type: integer
+      courseId:
+        type: integer
+      courseName:
+        type: string
+      location:
+        type: string
+      teachers:
+        items:
+          type: string
+        type: array
+      time:
+        items:
+          properties:
+            endTime:
+              type: string
+            startTime:
+              type: string
+          type: object
+        type: array
+    type: object
+  api.CourseItem:
+    properties:
+      capacity:
+        type: integer
+      courseName:
+        type: string
+      id:
+        type: integer
+      location:
+        type: string
+      teachers:
+        items:
+          type: string
+        type: array
+      time:
+        items:
+          properties:
+            endTime:
+              type: string
+            startTime:
+              type: string
+          type: object
+        type: array
+    type: object
+  api.CoursesResponse:
+    properties:
+      rows:
+        items:
+          $ref: '#/definitions/api.CourseItem'
+        type: array
+      size:
+        type: integer
+    type: object
+  api.EnrollCourseRequest:
+    properties:
+      courseId:
+        type: integer
+    type: object
+  api.GetCoursesByIdResponse:
+    properties:
+      capacity:
+        type: integer
+      courseName:
+        type: string
+      id:
+        type: integer
+      location:
+        type: string
+      students:
+        items:
+          properties:
+            name:
+              type: string
+            studentId:
+              type: string
+          type: object
+        type: array
+      teachers:
+        items:
+          type: string
+        type: array
+      time:
+        items:
+          properties:
+            endTime:
+              type: string
+            startTime:
+              type: string
+          type: object
+        type: array
+      totalStudents:
+        type: integer
+    type: object
+  api.GetStudentResponse:
+    properties:
+      courses:
+        items:
+          properties:
+            capacity:
+              type: integer
+            courseName:
+              type: string
+            id:
+              type: integer
+            location:
+              type: string
+            teachers:
+              items:
+                type: string
+              type: array
+            time:
+              items:
+                properties:
+                  endTime:
+                    type: string
+                  startTime:
+                    type: string
+                type: object
+              type: array
+          type: object
+        type: array
+      studentName:
+        type: string
+    type: object
+  api.GetStudentsResponse:
+    properties:
+      students:
+        items:
+          properties:
+            studentId:
+              type: string
+            studentName:
+              type: string
+            totalCourses:
+              type: integer
+          type: object
+        type: array
+    type: object
+  api.UserGetCourseRequest:
+    properties:
+      studentId:
+        type: string
+      studentName:
+        type: string
+    type: object
+  api.UserGetCoursesRequest:
+    properties:
+      capacity:
+        type: integer
+      courseId:
+        type: integer
+      courseName:
+        type: string
+      location:
+        type: string
+      teachers:
+        items:
+          type: string
+        type: array
+      time:
+        items:
+          properties:
+            endTime:
+              type: string
+            startTime:
+              type: string
+          type: object
+        type: array
+    type: object
+  api.UserLoginRequest:
+    properties:
+      password:
+        type: string
+      studentId:
+        type: string
+    type: object
+  api.UserRegisterRequest:
+    properties:
+      name:
+        type: string
+      password:
+        type: string
+      studentId:
+        type: string
+    type: object
+  response.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+info:
+  contact: {}
+paths:
+  /api/admin/courses:
+    get:
+      consumes:
+      - application/json
+      description: 管理员获取课程列表
+      parameters:
+      - in: query
+        name: courseName
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: location
+        type: string
+      - in: query
+        name: page
+        type: integer
+      - collectionFormat: csv
+        in: query
+        items:
+          type: string
+        name: teachers
+        type: array
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/api.CoursesResponse'
+              type: object
+      summary: 管理员获取课程列表
+      tags:
+      - 管理员部分
+    post:
+      consumes:
+      - application/json
+      description: 添加课程接口
+      parameters:
+      - description: 学生注册请求参数
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/api.AddCourseRequest'
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  additionalProperties: true
+                  type: object
+              type: object
+      summary: 添加课程接口
+      tags:
+      - 管理员部分
+    put:
+      consumes:
+      - application/json
+      description: 修改课程接口
+      parameters:
+      - description: 修改课程请求参数
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/api.AddCourseRequest'
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 修改课程接口
+      tags:
+      - 管理员部分
+  /api/admin/courses/{courseId}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除课程接口
+      parameters:
+      - description: 课程id
+        in: path
+        name: courseId
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 删除课程接口
+      tags:
+      - 管理员部分
+    get:
+      consumes:
+      - application/json
+      description: 管理员获取课程详情
+      parameters:
+      - description: 课程id
+        in: path
+        name: courseId
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/api.GetCoursesByIdResponse'
+              type: object
+      summary: 管理员获取课程详情
+      tags:
+      - 管理员部分
+  /api/admin/students:
+    get:
+      consumes:
+      - application/json
+      description: 管理员获取学生列表
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: studentId
+        type: string
+      - in: query
+        name: studentName
+        type: string
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/api.GetStudentsResponse'
+              type: object
+      summary: 管理员获取学生列表
+      tags:
+      - 管理员部分
+  /api/admin/students/{studentId}:
+    get:
+      consumes:
+      - application/json
+      description: 管理员获取学生详情
+      parameters:
+      - description: 学生id
+        in: path
+        name: studentId
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/api.GetStudentResponse'
+              type: object
+      summary: 管理员获取学生详情
+      tags:
+      - 管理员部分
+  /api/user:
+    get:
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/api.UserGetCourseRequest'
+              type: object
+      summary: 查询学生信息
+      tags:
+      - 学生部分
+  /api/user/:
+    delete:
+      consumes:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 退出登录接口
+      tags:
+      - 学生部分
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 学生登录请求参数
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/api.UserLoginRequest'
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 学生登录接口
+      tags:
+      - 学生部分
+  /api/user/courseId/{courseId}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 课程id
+        in: path
+        name: courseId
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/api.UserGetCourseRequest'
+              type: object
+      summary: 退课接口
+      tags:
+      - 学生部分
+  /api/user/courses:
+    get:
+      consumes:
+      - application/json
+      description: 查询课程列表
+      parameters:
+      - in: query
+        name: courseName
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: location
+        type: string
+      - in: query
+        name: page
+        type: integer
+      - collectionFormat: csv
+        in: query
+        items:
+          type: string
+        name: teachers
+        type: array
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/api.CoursesResponse'
+              type: object
+      summary: 查询课程列表
+      tags:
+      - 学生部分
+  /api/user/courses-selected:
+    get:
+      consumes:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/api.UserGetCoursesRequest'
+              type: object
+      summary: 查询已选课程信息
+      tags:
+      - 学生部分
+  /api/user/courses/:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 报名课程请求参数
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/api.EnrollCourseRequest'
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/api.GetCoursesByIdResponse'
+              type: object
+      summary: 报名课程接口
+      tags:
+      - 学生部分
+  /api/user/courses/{courseId}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 课程id
+        in: path
+        name: courseId
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/api.GetCoursesByIdResponse'
+              type: object
+      summary: 查询课程信息
+      tags:
+      - 学生部分
+  /api/user/register:
+    post:
+      consumes:
+      - application/json
+      description: 注册接口
+      parameters:
+      - description: 学生注册请求参数
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/api.UserRegisterRequest'
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 学生注册接口
+      tags:
+      - 学生部分
+swagger: "2.0"
