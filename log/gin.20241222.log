@@ -1,0 +1,8 @@
+[36mINFO[0m[20241222] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=3.4045ms [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m= [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/api/user [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"

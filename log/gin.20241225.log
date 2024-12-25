@@ -1,0 +1,709 @@
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="504.8µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m= [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=0s [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m= [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="482.6µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="777.6µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=0s [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=0s [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="504.5µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="487.2µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[31mERRO[0m[20241225] [31mpanic recovered: Undefined validation function 'required;max' on field 'Age'. Request: POST /test?name=1&age=1 HTTP/1.1
+Host: localhost:8088
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 38
+Content-Type: application/json
+User-Agent: Apifox/1.0.0 (https://apifox.com)
+
+. Stack: goroutine 16 [running]:
+runtime/debug.Stack()
+	C:/Program Files/Go/src/runtime/debug/stack.go:24 +0x5e
+tz-gin/router.InitRouter.GinRecovery.func3.1()
+	C:/Users/15202/Desktop/projects/tz-gin/middleswares/log.go:132 +0x137
+panic({0xcc37a0?, 0xc000c8ebd0?})
+	C:/Program Files/Go/src/runtime/panic.go:770 +0x132
+github.com/go-playground/validator/v10.(*Validate).parseFieldTagsRecursive(0xc000240070, {0xca861a?, 0xdc6028?}, {0xca8602, 0x3}, {0x0, 0x0}, 0x0)
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/cache.go:299 +0xa48
+github.com/go-playground/validator/v10.(*Validate).extractStructCache(0xc000240070, {0xd33580?, 0xc000c88060?, 0x58f256?}, {0xc9f859, 0x13})
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/cache.go:156 +0x5c5
+github.com/go-playground/validator/v10.(*validate).validateStruct(0xc000cac480, {0xf04148, 0x1c8fbc0}, {0xcae580?, 0xc000c88060?, 0xc000ca93a0?}, {0xd33580?, 0xc000c88060?, 0x1000000d33580?}, {0xf0fb88, ...}, ...)
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/validator.go:38 +0x17c
+github.com/go-playground/validator/v10.(*Validate).StructCtx(0xc000240070, {0xf04148, 0x1c8fbc0}, {0xcae580, 0xc000c88060})
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/validator_instance.go:395 +0x445
+github.com/go-playground/validator/v10.(*Validate).Struct(...)
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/validator_instance.go:368
+github.com/gin-gonic/gin/binding.(*defaultValidator).validateStruct(0x1c07b10, {0xcae580, 0xc000c88060})
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/binding/default_validator.go:83 +0x4b
+github.com/gin-gonic/gin/binding.(*defaultValidator).ValidateStruct(0x1c07b10, {0xcae580, 0xc000c88060})
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/binding/default_validator.go:60 +0x13e
+github.com/gin-gonic/gin/binding.validate(...)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/binding/binding.go:121
+github.com/gin-gonic/gin/binding.decodeJSON({0x28958904030?, 0xc000c8e030?}, {0xcae580, 0xc000c88060})
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/binding/json.go:55 +0x9c
+github.com/gin-gonic/gin/binding.jsonBinding.Bind({}, 0x18?, {0xcae580?, 0xc000c88060?})
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/binding/json.go:37 +0x86
+github.com/gin-gonic/gin.(*Context).ShouldBindWith(...)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:752
+github.com/gin-gonic/gin.(*Context).ShouldBindJSON(...)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:712
+tz-gin/controller.(*UserApi).TestValidate(0x28958900be8?, 0xc000c9e000)
+	C:/Users/15202/Desktop/projects/tz-gin/controller/user.go:434 +0x86
+tz-gin/router.InitRouter.ErrWrapper.func22(0xc000c9e000)
+	C:/Users/15202/Desktop/projects/tz-gin/middleswares/errHandler.go:17 +0x22
+github.com/gin-gonic/gin.(*Context).Next(0xc000c9e000)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185 +0x2b
+tz-gin/router.InitRouter.GinRecovery.func3(0xd9d8c0?)
+	C:/Users/15202/Desktop/projects/tz-gin/middleswares/log.go:139 +0x52
+github.com/gin-gonic/gin.(*Context).Next(0xc000c9e000)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185 +0x2b
+tz-gin/router.InitRouter.GinLogger.func2(0xc000c9e000)
+	C:/Users/15202/Desktop/projects/tz-gin/middleswares/log.go:40 +0x165
+github.com/gin-gonic/gin.(*Context).Next(...)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0xc000c9e000)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102 +0x7a
+github.com/gin-gonic/gin.(*Context).Next(...)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0xc000c9e000)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249 +0xe5
+github.com/gin-gonic/gin.(*Context).Next(...)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0xc0000eda00, 0xc000c9e000)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633 +0x892
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0xc0000eda00, {0xf024a0, 0xc000c92000}, 0xc000bda120)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589 +0x1b2
+net/http.serverHandler.ServeHTTP({0xf005b0?}, {0xf024a0?, 0xc000c92000?}, 0x6?)
+	C:/Program Files/Go/src/net/http/server.go:3137 +0x8e
+net/http.(*conn).serve(0xc000bde000, {0xf042d0, 0xc000c61ad0})
+	C:/Program Files/Go/src/net/http/server.go:2039 +0x5e8
+created by net/http.(*Server).Serve in goroutine 1
+	C:/Program Files/Go/src/net/http/server.go:3285 +0x4b4
+[0m 
+[31mERRO[0m[20241225] [31mError level log with brief information[0m  [31m[31m
+Status:[0m[0m=500 [31m[31m
+client_ip:[0m[0m="::1" [31m[31m
+duration:[0m[0m=2.3305ms [31m[31m
+method:[0m[0m=POST [31m[31m
+query:[0m[0m="name=1&age=1" [31m[31m
+url:[0m[0m=/test [31m[31m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[31mERRO[0m[20241225] [31mpanic recovered: Undefined validation function 'required;max' on field 'Age'. Request: POST /test?name=1&age=1 HTTP/1.1
+Host: localhost:8088
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 38
+Content-Type: application/json
+User-Agent: Apifox/1.0.0 (https://apifox.com)
+
+. Stack: goroutine 53 [running]:
+runtime/debug.Stack()
+	C:/Program Files/Go/src/runtime/debug/stack.go:24 +0x5e
+tz-gin/router.InitRouter.GinRecovery.func3.1()
+	C:/Users/15202/Desktop/projects/tz-gin/middleswares/log.go:132 +0x137
+panic({0x10337a0?, 0xc000bd3dc0?})
+	C:/Program Files/Go/src/runtime/panic.go:770 +0x132
+github.com/go-playground/validator/v10.(*Validate).parseFieldTagsRecursive(0xc000239880, {0x101898f?, 0x1136028?}, {0x1018976, 0x3}, {0x0, 0x0}, 0x0)
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/cache.go:299 +0xa48
+github.com/go-playground/validator/v10.(*Validate).extractStructCache(0xc000239880, {0x10a3580?, 0xc000bbd050?, 0x1f7af80?}, {0x100f859, 0x13})
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/cache.go:156 +0x5c5
+github.com/go-playground/validator/v10.(*validate).validateStruct(0xc000752fc0, {0x1274148, 0x1fffbc0}, {0x101e580?, 0xc000bbd050?, 0xc0000453a0?}, {0x10a3580?, 0xc000bbd050?, 0x10000010a3580?}, {0x127fb88, ...}, ...)
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/validator.go:38 +0x17c
+github.com/go-playground/validator/v10.(*Validate).StructCtx(0xc000239880, {0x1274148, 0x1fffbc0}, {0x101e580, 0xc000bbd050})
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/validator_instance.go:395 +0x445
+github.com/go-playground/validator/v10.(*Validate).Struct(...)
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/validator_instance.go:368
+github.com/gin-gonic/gin/binding.(*defaultValidator).validateStruct(0x1f77b10, {0x101e580, 0xc000bbd050})
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/binding/default_validator.go:83 +0x4b
+github.com/gin-gonic/gin/binding.(*defaultValidator).ValidateStruct(0x1f77b10, {0x101e580, 0xc000bbd050})
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/binding/default_validator.go:60 +0x13e
+github.com/gin-gonic/gin/binding.validate(...)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/binding/binding.go:121
+github.com/gin-gonic/gin/binding.decodeJSON({0x2b2e35d23c0?, 0xc000bd3220?}, {0x101e580, 0xc000bbd050})
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/binding/json.go:55 +0x9c
+github.com/gin-gonic/gin/binding.jsonBinding.Bind({}, 0x18?, {0x101e580?, 0xc000bbd050?})
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/binding/json.go:37 +0x86
+github.com/gin-gonic/gin.(*Context).ShouldBindWith(...)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:752
+github.com/gin-gonic/gin.(*Context).ShouldBindJSON(...)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:712
+tz-gin/controller.(*UserApi).TestValidate(0x2b2e34e8a80?, 0xc0001bf000)
+	C:/Users/15202/Desktop/projects/tz-gin/controller/user.go:434 +0x86
+tz-gin/router.InitRouter.ErrWrapper.func22(0xc0001bf000)
+	C:/Users/15202/Desktop/projects/tz-gin/middleswares/errHandler.go:17 +0x22
+github.com/gin-gonic/gin.(*Context).Next(0xc0001bf000)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185 +0x2b
+tz-gin/router.InitRouter.GinRecovery.func3(0x110d8c0?)
+	C:/Users/15202/Desktop/projects/tz-gin/middleswares/log.go:139 +0x52
+github.com/gin-gonic/gin.(*Context).Next(0xc0001bf000)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185 +0x2b
+tz-gin/router.InitRouter.GinLogger.func2(0xc0001bf000)
+	C:/Users/15202/Desktop/projects/tz-gin/middleswares/log.go:40 +0x165
+github.com/gin-gonic/gin.(*Context).Next(...)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0xc0001bf000)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102 +0x7a
+github.com/gin-gonic/gin.(*Context).Next(...)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0xc0001bf000)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249 +0xe5
+github.com/gin-gonic/gin.(*Context).Next(...)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0xc0006091e0, 0xc0001bf000)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633 +0x892
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0xc0006091e0, {0x12724a0, 0xc000ba7dc0}, 0xc00027e900)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589 +0x1b2
+net/http.serverHandler.ServeHTTP({0x12705b0?}, {0x12724a0?, 0xc000ba7dc0?}, 0x6?)
+	C:/Program Files/Go/src/net/http/server.go:3137 +0x8e
+net/http.(*conn).serve(0xc0000fe5a0, {0x12742d0, 0xc000bdbaa0})
+	C:/Program Files/Go/src/net/http/server.go:2039 +0x5e8
+created by net/http.(*Server).Serve in goroutine 1
+	C:/Program Files/Go/src/net/http/server.go:3285 +0x4b4
+[0m 
+[31mERRO[0m[20241225] [31mError level log with brief information[0m  [31m[31m
+Status:[0m[0m=500 [31m[31m
+client_ip:[0m[0m="::1" [31m[31m
+duration:[0m[0m=1.5277ms [31m[31m
+method:[0m[0m=POST [31m[31m
+query:[0m[0m="name=1&age=1" [31m[31m
+url:[0m[0m=/test [31m[31m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[31mERRO[0m[20241225] [31mpanic recovered: strconv.ParseInt: parsing "100;min=1": invalid syntax. Request: POST /test?name=1&age=1 HTTP/1.1
+Host: localhost:8088
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 38
+Content-Type: application/json
+User-Agent: Apifox/1.0.0 (https://apifox.com)
+
+. Stack: goroutine 36 [running]:
+runtime/debug.Stack()
+	C:/Program Files/Go/src/runtime/debug/stack.go:24 +0x5e
+tz-gin/router.InitRouter.GinRecovery.func3.1()
+	C:/Users/15202/Desktop/projects/tz-gin/middleswares/log.go:132 +0x137
+panic({0x16337a0?, 0xc0002c1540?})
+	C:/Program Files/Go/src/runtime/panic.go:770 +0x132
+github.com/go-playground/validator/v10.panicIf(...)
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/util.go:294
+github.com/go-playground/validator/v10.asInt({0x161899c?, 0xef3bdb?})
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/util.go:229 +0x48
+github.com/go-playground/validator/v10.asIntFromType({0x187fb88?, 0x16339e0?}, {0x161899c?, 0x9?})
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/util.go:252 +0x59
+github.com/go-playground/validator/v10.isLte({0x1878d88, 0xc00027eb40})
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/baked_in.go:2378 +0xec
+github.com/go-playground/validator/v10.hasMaxOf({0x1878d88?, 0xc00027eb40?})
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/baked_in.go:2461 +0x1d
+github.com/go-playground/validator/v10.New.wrapFunc.func3({0xc00027eb40?, 0x16339e0?}, {0x1878d88?, 0xc00027eb40?})
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/baked_in.go:43 +0x27
+github.com/go-playground/validator/v10.(*validate).traverseField(0xc00027eb40, {0x1874148, 0x25ffbc0}, {0x16a3580?, 0xc0001081f8?, 0x2597ff271f8?}, {0x16339e0?, 0xc000108208?, 0x120?}, {0xc00002eb00, ...}, ...)
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/validator.go:456 +0x1069
+github.com/go-playground/validator/v10.(*validate).validateStruct(0xc00027eb40, {0x1874148, 0x25ffbc0}, {0x161e580?, 0xc0001081f8?, 0xc000c8d3a0?}, {0x16a3580?, 0xc0001081f8?, 0x10000016a3580?}, {0x187fb88, ...}, ...)
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/validator.go:78 +0x725
+github.com/go-playground/validator/v10.(*Validate).StructCtx(0xc0002dab60, {0x1874148, 0x25ffbc0}, {0x161e580, 0xc0001081f8})
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/validator_instance.go:395 +0x445
+github.com/go-playground/validator/v10.(*Validate).Struct(...)
+	D:/go/pkg/mod/github.com/go-playground/validator/v10@v10.23.0/validator_instance.go:368
+github.com/gin-gonic/gin/binding.(*defaultValidator).validateStruct(0x2577b10, {0x161e580, 0xc0001081f8})
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/binding/default_validator.go:83 +0x4b
+github.com/gin-gonic/gin/binding.(*defaultValidator).ValidateStruct(0x2577b10, {0x161e580, 0xc0001081f8})
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/binding/default_validator.go:60 +0x13e
+github.com/gin-gonic/gin/binding.validate(...)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/binding/binding.go:121
+github.com/gin-gonic/gin/binding.decodeJSON({0x259400d2480?, 0xc0002c09a0?}, {0x161e580, 0xc0001081f8})
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/binding/json.go:55 +0x9c
+github.com/gin-gonic/gin/binding.jsonBinding.Bind({}, 0x18?, {0x161e580?, 0xc0001081f8?})
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/binding/json.go:37 +0x86
+github.com/gin-gonic/gin.(*Context).ShouldBindWith(...)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:752
+github.com/gin-gonic/gin.(*Context).ShouldBindJSON(...)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:712
+tz-gin/controller.(*UserApi).TestValidate(0x2597ff270b8?, 0xc000684300)
+	C:/Users/15202/Desktop/projects/tz-gin/controller/user.go:434 +0x86
+tz-gin/router.InitRouter.ErrWrapper.func22(0xc000684300)
+	C:/Users/15202/Desktop/projects/tz-gin/middleswares/errHandler.go:17 +0x22
+github.com/gin-gonic/gin.(*Context).Next(0xc000684300)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185 +0x2b
+tz-gin/router.InitRouter.GinRecovery.func3(0x170d8c0?)
+	C:/Users/15202/Desktop/projects/tz-gin/middleswares/log.go:139 +0x52
+github.com/gin-gonic/gin.(*Context).Next(0xc000684300)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185 +0x2b
+tz-gin/router.InitRouter.GinLogger.func2(0xc000684300)
+	C:/Users/15202/Desktop/projects/tz-gin/middleswares/log.go:40 +0x165
+github.com/gin-gonic/gin.(*Context).Next(...)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0xc000684300)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102 +0x7a
+github.com/gin-gonic/gin.(*Context).Next(...)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0xc000684300)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249 +0xe5
+github.com/gin-gonic/gin.(*Context).Next(...)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0xc0000eb860, 0xc000684300)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633 +0x892
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0xc0000eb860, {0x18724a0, 0xc000c80000}, 0xc000c14120)
+	D:/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589 +0x1b2
+net/http.serverHandler.ServeHTTP({0x18705b0?}, {0x18724a0?, 0xc000c80000?}, 0x6?)
+	C:/Program Files/Go/src/net/http/server.go:3137 +0x8e
+net/http.(*conn).serve(0xc000c1a000, {0x18742d0, 0xc0007ec060})
+	C:/Program Files/Go/src/net/http/server.go:2039 +0x5e8
+created by net/http.(*Server).Serve in goroutine 1
+	C:/Program Files/Go/src/net/http/server.go:3285 +0x4b4
+[0m 
+[31mERRO[0m[20241225] [31mError level log with brief information[0m  [31m[31m
+Status:[0m[0m=500 [31m[31m
+client_ip:[0m[0m="::1" [31m[31m
+duration:[0m[0m=1.6024ms [31m[31m
+method:[0m[0m=POST [31m[31m
+query:[0m[0m="name=1&age=1" [31m[31m
+url:[0m[0m=/test [31m[31m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="566.4µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="348.4µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=0s [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=0s [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="317.2µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="900.5µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=0s [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="505µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=0s [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="831.9µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="505.5µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="732.3µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=0s [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=0s [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="695.7µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="181.3µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="577.9µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="503.7µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=0s [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="840.5µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=1.1763ms [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=0s [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="646.4µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=0s [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="504.9µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=0s [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="290.1µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="333.5µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=0s [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="425.5µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="574.2µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="181.1µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=1.8609ms [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=0s [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="706.3µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=1.0009ms [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="270.6µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="555.2µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="402.2µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=0s [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="505.9µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="724.4µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=1.0002ms [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="431.1µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="212.1µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="235.4µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m=0s [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="262.4µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"
+[36mINFO[0m[20241225] [32mInfo level log with brief information[0m  [36m[32m
+client_ip:[0m[0m="::1" [36m[32m
+duration:[0m[0m="551.6µs" [36m[32m
+method:[0m[0m=POST [36m[32m
+query:[0m[0m="name=1&age=1" [36m[32m
+status:[0m[0m=200 [36m[32m
+url:[0m[0m=/test [36m[32m
+user_agent:[0m[0m="Apifox/1.0.0 (https://apifox.com)"

@@ -311,6 +311,12 @@ paths:
         name: courseId
         required: true
         type: integer
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
       responses:
         "200":
           description: success

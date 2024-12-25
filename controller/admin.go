@@ -1,11 +1,9 @@
-package api
+package controller
 
 import (
 	"database/sql"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"strconv"
-	"tz-gin/global"
 	"tz-gin/models"
 	"tz-gin/models/common/response"
 	"tz-gin/models/common/xerr"
@@ -63,11 +61,9 @@ func (a *AdminApi) AddCourse(c *gin.Context) error {
 	startTime.Time = forMatStartTime
 	endTime.Time = forMatEndTime
 
-	var hasTeachers []models.TeacherModel
-	if err := global.DBClient.Model(&models.TeacherModel{}).
-		Where("teacher_name IN (?)", req.Teachers).
-		Find(&hasTeachers).Error; err != nil {
-		return xerr.NewErrCode(response.SERVER_ERROR)
+	hasTeachers, err := services.AdminService.ListTeachersByNames(req.Teachers)
+	if err != nil {
+		return err
 	}
 
 	if len(hasTeachers) != len(req.Teachers) {
@@ -83,7 +79,7 @@ func (a *AdminApi) AddCourse(c *gin.Context) error {
 		EndTime:    endTime,
 	}
 
-	tx := global.DBClient.Begin()
+	tx := models.DB.Begin()
 	if err := tx.Create(&course).Error; err != nil {
 		tx.Rollback()
 		return xerr.NewErrCode(response.SERVER_ERROR)
@@ -114,28 +110,20 @@ func (a *AdminApi) AddCourse(c *gin.Context) error {
 // @Success 200 {object} response.Response{} "success"
 // @Router /api/admin/courses/{courseId} [delete]
 func (a *AdminApi) DeleteCourse(c *gin.Context) error {
-	courseId := c.Param("courseId")
+	courseIdStr := c.Param("courseId")
 	var teachers []models.TeacherModel
-	if err := global.DBClient.Model(&models.TeacherModel{}).
+	if err := models.DB.Model(&models.TeacherModel{}).
 		Find(&teachers).Error; err != nil {
 		return xerr.NewErrCode(response.SERVER_ERROR)
 	}
-
-	tx := global.DBClient.Begin()
-
-	// 删除满足条件的所有关联关系
-	if err := tx.Model(&teachers).
-		Where("course_id = ?", courseId).
-		Association("Courses").
-		Clear(); err != nil {
-		tx.Rollback()
-		return xerr.NewErrCode(response.SERVER_ERROR)
+	courseId, err := strconv.ParseInt(courseIdStr, 10, 64)
+	if err != nil {
+		return xerr.NewErrCode(response.PARAMETER_ERROR)
 	}
-
-	if err := tx.Delete(&models.CourseModel{}, courseId).Error; err != nil {
-		return xerr.NewErrCode(response.SERVER_ERROR)
+	err = services.AdminService.DeleteCourseWithTeachers(courseId, teachers)
+	if err != nil {
+		return err
 	}
-	tx.Commit()
 	response.Ok(c)
 	return nil
 }
@@ -178,14 +166,12 @@ func (a *AdminApi) UpdateCourse(c *gin.Context) error {
 		return xerr.NewErrCode(response.PARAMETER_ERROR)
 	}
 
-	fmt.Print(forMatStartTime, forMatEndTime)
 	startTime.Time = forMatStartTime
 	endTime.Time = forMatEndTime
 
-	var hasTeachers []models.TeacherModel
-	if err := global.DBClient.Model(&models.TeacherModel{}).
-		Find(&hasTeachers).Error; err != nil {
-		return xerr.NewErrCode(response.SERVER_ERROR)
+	hasTeachers, err := services.AdminService.ListTeachersByNames(req.Teachers)
+	if err != nil {
+		return err
 	}
 
 	var toAssignTeachers []models.TeacherModel
@@ -199,8 +185,8 @@ func (a *AdminApi) UpdateCourse(c *gin.Context) error {
 		return xerr.NewErrCode(response.PARAMETER_ERROR)
 	}
 
-	tx := global.DBClient.Begin()
-
+	tx := models.DB.Begin()
+	// 删除满足条件的所有关联关系
 	if err := tx.Model(&hasTeachers).
 		Where("course_id = ?", req.CourseId).
 		Association("Courses").
@@ -208,17 +194,23 @@ func (a *AdminApi) UpdateCourse(c *gin.Context) error {
 		tx.Rollback()
 		return xerr.NewErrCode(response.SERVER_ERROR)
 	}
-	if err := tx.Model(&models.CourseModel{}).
-		Where("id = ?", req.CourseId).
-		Updates(map[string]interface{}{
-			"course_name": req.CourseName,
-			"capacity":    req.Capacity,
-			"location":    req.Location,
-			"start_time":  startTime,
-			"end_time":    endTime,
-		}).Error; err != nil {
+
+	if err := tx.Delete(&models.CourseModel{}, req.CourseId).Error; err != nil {
 		tx.Rollback()
 		return xerr.NewErrCode(response.SERVER_ERROR)
+	}
+
+	err = services.AdminService.UpdateCourse(models.CourseModel{
+		CourseName: req.CourseName,
+		Capacity:   req.Capacity,
+		Location:   req.Location,
+		StartTime:  startTime,
+		EndTime:    endTime,
+		Id:         req.CourseId,
+	})
+	if err != nil {
+		tx.Rollback()
+		return err
 	}
 
 	for _, teacher := range toAssignTeachers {
@@ -233,12 +225,6 @@ func (a *AdminApi) UpdateCourse(c *gin.Context) error {
 	return nil
 }
 
-// page (*)	number	1
-// limit (*)	number	10
-// courseName	string	"tenzor"
-// teachers	string[]	["zao", "bobo"]
-// time	duration[] ({startTime, endTime})	[{"startTime": "2024-04-06 21:21:53", "endTime": "2024-04-06 21:21:53"}]
-// location	string	"B204"
 type CoursesRequest struct {
 	CourseName string   `form:"courseName"`
 	Teachers   []string `form:"teachers"`
@@ -274,66 +260,27 @@ type CoursesResponse struct {
 // @Router /api/admin/courses [get]
 func (a *AdminApi) GetCourses(c *gin.Context) error {
 	var req CoursesRequest
-	if err := c.BindQuery(&req); err != nil {
+	if err := c.ShouldBindQuery(&req); err != nil {
 		return err
 	}
-	fmt.Println(req)
-	var size int64
-	offset, limit, err := utils.GetPagination(req.Page, req.Limit)
+	tmp, count, err := services.AdminService.ListCoursesByNames(req.CourseName, req.Location, req.Page, req.Limit)
 	if err != nil {
-		return xerr.NewErrCode(response.SERVER_ERROR)
-	}
-	//var teacherIds []int64
-	//if len(req.Teachers) > 0 {
-	//	var teachers []models.TeacherModel
-	//	if err := global.DBClient.Model(&models.TeacherModel{}).
-	//		Where("teacher_name IN (?)", req.Teachers).
-	//		Find(&teachers).Error; err != nil {
-	//		return xerr.NewErrCode(response.SERVER_ERROR)
-	//	}
-	//}
-
-	coursesDb := global.DBClient.
-		Model(&models.CourseModel{})
-
-	if req.CourseName != "" {
-		coursesDb = coursesDb.Where("course_name LIKE ?", "%"+req.CourseName+"%")
-	}
-	if req.Location != "" {
-		coursesDb = coursesDb.Where("location = ?", req.Location)
-	}
-	if len(req.Teachers) > 0 {
-
-	}
-
-	var tmp []models.CourseModel
-	if err := coursesDb.
-		Count(&size).
-		Offset(offset).
-		Limit(limit).
-		Find(&tmp).Error; err != nil {
-		return xerr.NewErrCode(response.SERVER_ERROR)
+		return err
 	}
 	var courseTeacherMap = make(map[int64][]string)
 	if len(tmp) > 0 {
-		teacherDb := global.DBClient.Model(&tmp)
-		//if len(req.Teachers) > 0 {
-		//	teacherDb = teacherDb.Where("teacher_name IN (?)", req.Teachers)
-		//}
+		teacherDb := models.DB.Model(&tmp)
 		tmpCourses := make([]models.CourseModel, 0)
-
 		if err := teacherDb.
 			Preload("Teachers").
 			Find(&tmpCourses).Error; err != nil {
 			return xerr.NewErrCode(response.SERVER_ERROR)
 		}
-
 		for _, course := range tmpCourses {
 			for _, teacher := range course.Teachers {
 				courseTeacherMap[course.Id] = append(courseTeacherMap[course.Id], teacher.TeacherName)
 			}
 		}
-
 	}
 
 	var rows []CourseItem
@@ -360,7 +307,7 @@ func (a *AdminApi) GetCourses(c *gin.Context) error {
 	}
 
 	response.OkWithData(CoursesResponse{
-		Size: int(size),
+		Size: int(count),
 		Rows: rows,
 	}, c)
 	return nil
@@ -394,6 +341,7 @@ type GetCoursesByIdResponse struct {
 // @Tags 管理员部分
 // @Accept json
 // @Param courseId path int true "课程id"
+// @Param req query GetCoursesByIdRequest true "修改课程请求参数"
 // @Success 200 {object} response.Response{data=GetCoursesByIdResponse} "success"
 // @Router /api/admin/courses/{courseId} [get]
 func (a *AdminApi) GetCoursesById(c *gin.Context) error {
@@ -406,21 +354,18 @@ func (a *AdminApi) GetCoursesById(c *gin.Context) error {
 	if err := c.BindQuery(&req); err != nil {
 		return err
 	}
+
 	var size int64
 	offset, limit, err := utils.GetPagination(req.Page, req.Limit)
 	if err != nil {
 		return xerr.NewErrCode(response.SERVER_ERROR)
 	}
-
-	var course models.CourseModel
-	if err := global.DBClient.Model(&models.CourseModel{}).
-		Where("id = ?", courseId).
-		Preload("Teachers").
-		First(&course).Error; err != nil {
-		return xerr.NewErrCode(response.SERVER_ERROR)
+	course, err := services.UserService.FindCourseByCourseId(courseId)
+	if err != nil {
+		return err
 	}
 
-	if err = global.DBClient.
+	if err = models.DB.
 		Model(&models.StudentModel{}).
 		Table("students as s").
 		Joins("JOIN student_courses as sc ON sc.student_id = s.id").
@@ -489,30 +434,14 @@ type GetStudentsResponse struct {
 // @Router /api/admin/students [get]
 func (a *AdminApi) GetStudents(c *gin.Context) error {
 	var req GetStudentsRequest
-	if err := c.BindQuery(&req); err != nil {
+	if err := c.ShouldBindQuery(&req); err != nil {
 		return err
 	}
-	offset, limit, err := utils.GetPagination(req.Page, req.Limit)
+
+	students, err := services.AdminService.ListStudents(req.Page, req.Limit, req.StudentName, req.StudentId)
 	if err != nil {
-		return xerr.NewErrCode(response.SERVER_ERROR)
+		return err
 	}
-	db := global.DBClient.Model(&models.StudentModel{})
-
-	if req.StudentName != "" {
-		db = db.Where("student_name LIKE ?", "%"+req.StudentName+"%")
-	}
-	if req.StudentId != "" {
-		db = db.Where("student_id LIKE ?", "%"+req.StudentId+"%")
-	}
-
-	var students []models.StudentModel
-	if err := db.
-		Offset(offset).
-		Limit(limit).
-		Find(&students).Error; err != nil {
-		return xerr.NewErrCode(response.SERVER_ERROR)
-	}
-
 	var res []struct {
 		StudentId    string `json:"studentId"`
 		StudentName  string `json:"studentName"`
@@ -526,9 +455,9 @@ func (a *AdminApi) GetStudents(c *gin.Context) error {
 
 	// 查询所有课程
 	var courses []models.CourseModel
-	if err := global.DBClient.
+	if err := models.DB.
 		Model(&models.CourseModel{}).
-		Preload("Students", global.DBClient.Where("id IN (?)", studentsIds)).
+		Preload("Students", models.DB.Where("id IN (?)", studentsIds)).
 		Find(&courses).Error; err != nil {
 		return xerr.NewErrCode(response.SERVER_ERROR)
 	}
@@ -583,17 +512,13 @@ type GetStudentResponse struct {
 // @Router /api/admin/students/{studentId} [get]
 func (a *AdminApi) GetStudent(c *gin.Context) error {
 	studentIdParam := c.Param("studentId")
-	studentId, err := strconv.Atoi(studentIdParam)
+	studentIdStr, err := strconv.Atoi(studentIdParam)
 	if err != nil {
 		return xerr.NewErrCode(response.PARAMETER_ERROR)
 	}
-	var student models.StudentModel
-	if err := global.DBClient.
-		Model(&models.StudentModel{}).
-		Where("id = ?", studentId).
-		Preload("Courses").
-		First(&student).Error; err != nil {
-		return xerr.NewErrCode(response.SERVER_ERROR)
+	student, err := services.AdminService.GetStudentById(int64(studentIdStr))
+	if err != nil {
+		return err
 	}
 
 	courseIds := make([]int64, 0)
@@ -601,7 +526,7 @@ func (a *AdminApi) GetStudent(c *gin.Context) error {
 		courseIds = append(courseIds, course.Id)
 	}
 	var studentCourses []models.CourseModel
-	if err := global.DBClient.
+	if err := models.DB.
 		Model(&models.CourseModel{}).
 		Preload("Teachers").
 		Where("id IN (?)", courseIds).
@@ -647,6 +572,7 @@ func (a *AdminApi) GetStudent(c *gin.Context) error {
 			Teachers:   teacherMap[course.Id],
 		})
 	}
+
 	response.OkWithData(res, c)
 	return nil
 }

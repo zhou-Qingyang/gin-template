@@ -1,8 +1,9 @@
-package api
+package controller
 
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"strconv"
 	"time"
 	"tz-gin/global"
@@ -36,37 +37,22 @@ func (u *UserApi) Register(c *gin.Context) error {
 	if createUser.Name == "" || createUser.Password == "" || createUser.StudentId == "" {
 		return xerr.NewErrCode(response.PARAMETER_ERROR)
 	}
-	var count int64
-	if err := global.DBClient.Model(&models.UserModel{}).
-		Where("student_id =?", createUser.StudentId).
-		Count(&count).Error; err != nil {
+
+	userInfo, err := services.UserService.FindByStudentId(createUser.StudentId)
+	if err != nil {
 		return err
 	}
-	if count > 0 {
+	if userInfo.Id > 0 {
 		return xerr.NewErrCode(response.RESOURCE_EXIST)
 	}
-
-	tx := global.DBClient.Begin()
-	user := &models.UserModel{
-		StudentId:   createUser.StudentId,
+	if err := services.UserService.CreateAccount(&models.UserModel{
 		StudentName: createUser.Name,
 		Password:    utils.Md5(createUser.Password),
-		IsAdmin:     0,
-	}
-
-	if err := tx.Create(&user).Error; err != nil {
-		return err
-	}
-
-	if err := tx.Create(&models.StudentModel{
-		UserId:      user.Id,
 		StudentId:   createUser.StudentId,
-		StudentName: createUser.Name,
-		Courses:     nil,
+		Id:          userInfo.Id,
 	}).Error; err != nil {
-		return err
+		return xerr.NewErrCode(response.SERVER_ERROR)
 	}
-	tx.Commit()
 	response.Ok(c)
 	return nil
 }
@@ -92,11 +78,9 @@ func (u *UserApi) Login(c *gin.Context) error {
 		return xerr.NewErrCode(response.PARAMETER_ERROR)
 	}
 
-	var user models.UserModel
-	if err := global.DBClient.Model(&models.UserModel{}).
-		Where("student_id =?", loginUser.StudentId).
-		First(&user).Error; err != nil {
-		return xerr.NewErrCode(response.SERVER_ERROR)
+	user, err := services.UserService.FindByStudentId(loginUser.StudentId)
+	if err != nil {
+		return err
 	}
 
 	if user.Password != utils.Md5(loginUser.Password) {
@@ -104,7 +88,7 @@ func (u *UserApi) Login(c *gin.Context) error {
 	}
 
 	var student models.StudentModel
-	if err := global.DBClient.Model(&models.StudentModel{}).
+	if err := models.DB.Model(&models.StudentModel{}).
 		Where("user_id = ?", user.Id).
 		First(&student).Error; err != nil {
 		return xerr.NewErrCode(response.SERVER_ERROR)
@@ -156,12 +140,9 @@ func (u *UserApi) GetUser(c *gin.Context) error {
 		return xerr.NewErrCode(response.PARAMETER_ERROR)
 	}
 	claims := baseClaims.(*utils.CustomClaims)
-
-	var user models.UserModel
-	if err := global.DBClient.Model(&models.UserModel{}).
-		Where("id =?", claims.UserId).
-		First(&user).Error; err != nil {
-		return xerr.NewErrCode(response.SERVER_ERROR)
+	user, err := services.UserService.FindUserByUserId(claims.UserId)
+	if err != nil {
+		return err
 	}
 	response.OkWithData(UserGetCourseRequest{
 		StudentId:   user.StudentId,
@@ -191,35 +172,13 @@ func (u *UserApi) GetCourses(c *gin.Context) error {
 	if err := c.BindQuery(&req); err != nil {
 		return err
 	}
-	var size int64
-	offset, limit, err := utils.GetPagination(req.Page, req.Limit)
+	count, tmp, err := services.UserService.ListCoursesBy(req.CourseName, req.Location, req.Page, req.Limit)
 	if err != nil {
-		return xerr.NewErrCode(response.SERVER_ERROR)
-	}
-
-	coursesDb := global.DBClient.
-		Model(&models.CourseModel{})
-
-	if req.CourseName != "" {
-		coursesDb = coursesDb.Where("course_name LIKE ?", "%"+req.CourseName+"%")
-	}
-	if req.Location != "" {
-		coursesDb = coursesDb.Where("location = ?", req.Location)
-	}
-	if len(req.Teachers) > 0 {
-	}
-
-	var tmp []models.CourseModel
-	if err := coursesDb.
-		Count(&size).
-		Offset(offset).
-		Limit(limit).
-		Find(&tmp).Error; err != nil {
-		return xerr.NewErrCode(response.SERVER_ERROR)
+		return err
 	}
 	var courseTeacherMap = make(map[int64][]string)
 	if len(tmp) > 0 {
-		teacherDb := global.DBClient.Model(&tmp)
+		teacherDb := models.DB.Model(&tmp)
 
 		tmpCourses := make([]models.CourseModel, 0)
 		if err := teacherDb.
@@ -233,15 +192,15 @@ func (u *UserApi) GetCourses(c *gin.Context) error {
 				courseTeacherMap[course.Id] = append(courseTeacherMap[course.Id], teacher.TeacherName)
 			}
 		}
-
 	}
+
 	var rows []CourseItem
 	for _, course := range tmp {
-		var time []struct {
+		var times []struct {
 			StartTime string `json:"startTime"`
 			EndTime   string `json:"endTime"`
 		}
-		time = append(time, struct {
+		times = append(times, struct {
 			StartTime string `json:"startTime"`
 			EndTime   string `json:"endTime"`
 		}{
@@ -253,13 +212,13 @@ func (u *UserApi) GetCourses(c *gin.Context) error {
 			CourseName: course.CourseName,
 			Capacity:   course.Capacity,
 			Location:   course.Location,
-			Time:       time,
+			Time:       times,
 			Teachers:   courseTeacherMap[course.Id],
 		})
 	}
 
 	response.OkWithData(CoursesResponse{
-		Size: int(size),
+		Size: int(count),
 		Rows: rows,
 	}, c)
 	return nil
@@ -278,13 +237,9 @@ func (u *UserApi) GetCourseById(c *gin.Context) error {
 	if err != nil {
 		return xerr.NewErrCode(response.PARAMETER_ERROR)
 	}
-
-	var course models.CourseModel
-	if err := global.DBClient.Model(&models.CourseModel{}).
-		Where("id = ?", courseId).
-		Preload("Teachers").
-		First(&course).Error; err != nil {
-		return xerr.NewErrCode(response.SERVER_ERROR)
+	course, err := services.UserService.FindCourseByCourseId(courseId)
+	if err != nil {
+		return err
 	}
 
 	var res GetCoursesByIdResponse
@@ -334,22 +289,16 @@ func (u *UserApi) EnrollCourse(c *gin.Context) error {
 	}
 	claims := baseClaims.(*utils.CustomClaims)
 
-	var hasEnrolled int64
-	if err := global.DBClient.
-		Table("student_courses").
-		Where("student_id = ? and course_id = ?", claims.StudentPrimaryId, req.CourseId).
-		Count(&hasEnrolled).Error; err != nil {
+	hasEnrolled, err := services.UserService.CountHasEnrolledCourses(claims.StudentPrimaryId, req.CourseId)
+	if err != nil {
 		return err
 	}
 	if hasEnrolled > 0 {
 		return xerr.NewErrCodeMsg(3, "已经报名该课程")
 	}
-
-	if err := global.DBClient.Create(&models.StudentCourseModel{
-		StudentId: claims.StudentPrimaryId,
-		CourseId:  req.CourseId,
-	}).Error; err != nil {
-		return xerr.NewErrCodeMsg(3, "抢课失败")
+	err = services.UserService.EnrollCourse(claims.StudentPrimaryId, req.CourseId)
+	if err != nil {
+		return err
 	}
 	response.Ok(c)
 	return nil
@@ -364,7 +313,7 @@ func (u *UserApi) EnrollCourse(c *gin.Context) error {
 // @Router /api/user/courseId/{courseId} [delete]
 func (u *UserApi) DropCourse(c *gin.Context) error {
 	courseIdParam := c.Param("courseId")
-	courseId, err := strconv.Atoi(courseIdParam)
+	courseId, err := strconv.ParseInt(courseIdParam, 10, 64)
 	if err != nil {
 		return xerr.NewErrCode(response.PARAMETER_ERROR)
 	}
@@ -378,12 +327,7 @@ func (u *UserApi) DropCourse(c *gin.Context) error {
 	}
 	claims := baseClaims.(*utils.CustomClaims)
 
-	if err := global.DBClient.
-		Table("student_courses").
-		Where("student_id = ? and course_id = ?", claims.StudentPrimaryId, courseId).
-		Delete(&models.StudentCourseModel{}).Error; err != nil {
-		return err
-	}
+	err = services.UserService.DropCourse(claims.StudentPrimaryId, courseId)
 	response.Ok(c)
 	return nil
 }
@@ -419,7 +363,7 @@ func (u *UserApi) GetEnrolledCourses(c *gin.Context) error {
 	claims := baseClaims.(*utils.CustomClaims)
 
 	var student models.StudentModel
-	if err := global.DBClient.Model(&models.StudentModel{}).
+	if err := models.DB.Model(&models.StudentModel{}).
 		Preload("Courses").
 		Where("id = ?", claims.StudentPrimaryId).
 		Find(&student).Error; err != nil {
@@ -432,7 +376,7 @@ func (u *UserApi) GetEnrolledCourses(c *gin.Context) error {
 	}
 
 	var courses []models.CourseModel
-	if err := global.DBClient.Model(&models.CourseModel{}).
+	if err := models.DB.Model(&models.CourseModel{}).
 		Preload("Teachers").
 		Where("id in (?)", courseIds).
 		Find(&courses).Error; err != nil {
@@ -477,6 +421,28 @@ func (u *UserApi) GetEnrolledCourses(c *gin.Context) error {
 // @Success 200 {object} response.Response{} "success"
 // @Router /api/user/ [delete]
 func (u *UserApi) Logout(c *gin.Context) error {
+	response.Ok(c)
+	return nil
+}
+
+type TestValidateRequest struct {
+	Name     string `json:"name" binding:"required,timing"`
+	Password string `json:"password" binding:"required,max=16,min=6"`
+}
+
+func (u *UserApi) TestValidate(c *gin.Context) error {
+	var req TestValidateRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// 获取validator.ValidationErrors类型的errors
+		errs, ok := err.(validator.ValidationErrors)
+		if !ok {
+			// 非validator.ValidationErrors类型错误直接返回
+			response.Fail(c)
+			return nil
+		}
+		response.FailWithMessage(utils.ParseErr(errs), c)
+		return nil
+	}
 	response.Ok(c)
 	return nil
 }
