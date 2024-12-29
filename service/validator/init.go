@@ -2,13 +2,11 @@ package validator
 
 import (
 	"fmt"
-
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/locales/en"
 	"github.com/go-playground/locales/zh"
-	"github.com/go-playground/validator/v10"
-
 	ut "github.com/go-playground/universal-translator"
+	"github.com/go-playground/validator/v10"
 	enTranslations "github.com/go-playground/validator/v10/translations/en"
 	zhTranslations "github.com/go-playground/validator/v10/translations/zh"
 )
@@ -59,6 +57,7 @@ func InitValidator(locale string) {
 		default:
 			validatorDefault(v)
 		}
+
 	}
 }
 

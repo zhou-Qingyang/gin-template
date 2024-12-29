@@ -11,7 +11,6 @@ import (
 
 func main() {
 	gin.SetMode(config.Config.AppMode)
-	//validatorTo.InitValidator()
 	validator.InitValidator("zh")
 	srv := router.NewServer()
 	if err := srv.ListenAndServe(); err != nil {
